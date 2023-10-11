@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WorkplaceBooking.Contracts.Entities;
 
-namespace WorkplaceBooking.Contracts.DataContracts.User
+namespace WorkplaceBooking.Contracts.DataContracts
 {
     // TODO: magic key =)
     public class UserCreateRequestDC
@@ -10,7 +10,7 @@ namespace WorkplaceBooking.Contracts.DataContracts.User
         /// Имя пользователя
         /// </summary>
         [Required]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Фамилия пользователя
@@ -36,6 +36,7 @@ namespace WorkplaceBooking.Contracts.DataContracts.User
         /// Пароль пользователя
         /// </summary>
         [Required]
+        [MinLength(8)]
         public string Password { get; set; }
 
         /// <summary>

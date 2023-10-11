@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WorkplaceBooking.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
@@ -13,7 +14,8 @@ namespace WorkplaceBooking.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "Hi")]
+        [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Hi()
         {
             return Ok(new { message = "hi" });
