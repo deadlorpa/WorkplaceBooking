@@ -20,7 +20,7 @@ namespace WorkplaceBooking.Dal
         {
             get
             {
-                return new SqliteConnection(_configuration.GetConnectionString("Database"));
+                return new SqliteConnection(_configuration.GetConnectionString("DatabaseConnectionString"));
             }
         }
 
