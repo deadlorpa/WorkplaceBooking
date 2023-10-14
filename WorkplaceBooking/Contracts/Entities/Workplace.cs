@@ -6,7 +6,12 @@
         /// Идентификатор рабочего места
         /// </summary>
         public int Id { get; set; }
-        
+
+        /// <summary>
+        /// Идентификатор связанной комнаты
+        /// </summary>
+        public int RoomId { get; set; }
+
         /// <summary>
         /// Наименование рабочего места
         /// </summary>

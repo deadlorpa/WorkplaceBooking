@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WorkplaceBooking.Contracts.DataContracts;
+using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.Entities;
 
 namespace WorkplaceBooking.Utils
@@ -10,6 +11,8 @@ namespace WorkplaceBooking.Utils
         {
             CreateMap<UserCreateRequestDC, User>();
             CreateMap<UserUpdateRequestDC, User>();
+            CreateMap<BookingRecordCreateDC, BookingRecord>();
+            CreateMap<BookingRecordUpdateDC, BookingRecord>();
         }
     }
 }

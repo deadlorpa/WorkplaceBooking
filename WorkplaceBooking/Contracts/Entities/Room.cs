@@ -11,10 +11,5 @@
         /// Имя комнаты
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Рабочие места в комнате
-        /// </summary>
-        public IEnumerable<Workplace> Workplaces { get; set; }
     }
 }

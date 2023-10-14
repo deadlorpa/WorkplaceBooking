@@ -13,7 +13,7 @@ namespace WorkplaceBooking.Migrations
         public override void Up()
         {
             Create.Table("Users")
-            .WithColumn("Id").AsInt32().NotNullable().PrimaryKey()
+            .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn("FirstName").AsString(50).NotNullable()
             .WithColumn("LastName").AsString(50).NotNullable()
             .WithColumn("Email").AsString(60).NotNullable()

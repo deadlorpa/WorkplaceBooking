@@ -1,35 +1,31 @@
-﻿namespace WorkplaceBooking.Contracts.Entities
-{
-    public class BookingRecord
-    {
-        /// <summary>
-        /// Идентификатор записи о бронировании
-        /// </summary>
-        public int Id { get; set; }
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace WorkplaceBooking.Contracts.DataContracts
+{
+    public class BookingRecordCreateDC
+    {
         /// <summary>
         /// Идентификатор пользователя-холдера бронирования
         /// </summary>
+        [Required]
         public int UserId { get; set; }
 
         /// <summary>
         /// Идентификатор рабочего места
         /// </summary>
+        [Required]
         public int WorkplaceId { get; set; }
-
-        /// <summary>
-        /// Признак отмены бронирования
-        /// </summary>
-        public bool IsCanceled { get; set; }
 
         /// <summary>
         /// Дата и время старта бронирования
         /// </summary>
+        [Required]
         public DateTime StartBookingDateTime { get; set; }
 
         /// <summary>
         /// Дата и время окончания бронирования
         /// </summary>
+        [Required]
         public DateTime EndBookingDateTime { get; set; }
     }
 }

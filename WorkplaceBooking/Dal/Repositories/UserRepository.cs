@@ -89,7 +89,7 @@ namespace WorkplaceBooking.Dal.Repositories
                     Email     = @Email,
                     Role      = @Role,
                     Password  = @Password
-                WHERE Id = @id
+                WHERE Id = @Id
             ";
             await connection.ExecuteAsync(sql, user);
         }
