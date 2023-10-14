@@ -3,7 +3,7 @@ using WorkplaceBooking.Contracts.Entities;
 
 namespace WorkplaceBooking.Contracts.DataContracts
 {
-    // TODO: magic key =)
+    // TODO: magic key
     public class UserCreateRequestDC
     {
         /// <summary>

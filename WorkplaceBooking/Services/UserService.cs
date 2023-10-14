@@ -65,7 +65,7 @@ namespace WorkplaceBooking.Services
             var user = await _userRepository.GetById(id);
             if (user == null)
                 throw new KeyNotFoundException(UserMessages.UserNotFound);
-            // TODO: покумекать?
+            // TODO: refactoring?
             bool emailChanged = !string.IsNullOrEmpty(contract.Email) && user.Email != contract.Email;
             if (emailChanged && await _userRepository.GetByEmail(contract.Email) != null)
                 throw new AppException(UserMessages.UserEmailExist);

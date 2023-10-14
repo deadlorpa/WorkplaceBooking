@@ -1,4 +1,6 @@
+using FluentMigrator.Runner;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.Entities;
@@ -6,6 +8,7 @@ using WorkplaceBooking.Dal;
 using WorkplaceBooking.Dal.Repositories;
 using WorkplaceBooking.Interfaces;
 using WorkplaceBooking.Middleware;
+using WorkplaceBooking.Migrations;
 using WorkplaceBooking.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,12 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.Configure<JwtAppSettings>(builder.Configuration.GetSection("JwtAppSettings"));
     builder.Services.AddSingleton<DatabaseContext>();
+    builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
+    .AddFluentMigratorCore()
+        .ConfigureRunner(c => c.AddSQLite()
+                               .WithGlobalConnectionString(builder.Configuration.GetConnectionString("DatabaseConnectionString"))
+                               .ScanIn(Assembly.GetExecutingAssembly()).For.Migrations()
+        );
     builder.Services.AddCors();
     builder.Services.AddControllers().AddJsonOptions(x =>
     {
@@ -58,11 +67,7 @@ builder.Services.AddSwaggerGen(option =>
 
 var app = builder.Build();
 
-{
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-    await context.Init();
-}
+app.MigrateDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

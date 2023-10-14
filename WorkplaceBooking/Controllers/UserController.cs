@@ -53,13 +53,13 @@ namespace WorkplaceBooking.Controllers
             return Ok(user);
         }
 
-        // TODO: рассмотреть создание специального атрибута админа?
+        // TODO: admin attrib?
         [AllowAnonymous]
         [HttpPost("Create")]
         public async Task<IActionResult> Create(UserCreateRequestDC request)
         {
             await _userService.Create(request);
-            // TODO: или возвращать контракт?
+            // TODO: or ret contract?
             return Ok(new { message = UserMessages.UserCreated});
         }
 
@@ -67,7 +67,7 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Update(int id, UserUpdateRequestDC request)
         {
             await _userService.Update(id, request);
-            // TODO: или возвращать контракт?
+            // TODO: or ret contract?
             return Ok(new { message = UserMessages.UserUpdated });
         }
 
@@ -75,7 +75,7 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _userService.Delete(id);
-            // TODO: или возвращать контракт?
+            // TODO: or ret contract?
             return Ok(new { message = UserMessages.UserDeleted });
         }
 

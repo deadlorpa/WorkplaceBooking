@@ -1,6 +1,6 @@
 ﻿namespace WorkplaceBooking.Contracts.Entities
 {
-    // TODO: переработать - вынести в файл локали en и ру и от них билдить сообщения
+    // TODO: CHANGE - add resx and localization
     public static class UserMessages
     {
         public static string UserCreated = "Пользователь создан";
