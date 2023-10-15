@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
@@ -7,6 +7,7 @@ using WorkplaceBooking.Interfaces;
 namespace WorkplaceBooking.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
@@ -21,6 +22,7 @@ namespace WorkplaceBooking.Controllers
 
         #region Auth
 
+        [AllowAnonymous]
         [HttpPost("Auth")]
         public async Task<IActionResult> Auth(UserAuthRequestDC request)
         {
@@ -32,6 +34,7 @@ namespace WorkplaceBooking.Controllers
 
         #region CRUD
 
+        [Admin]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -39,6 +42,7 @@ namespace WorkplaceBooking.Controllers
             return Ok(users);
         }
 
+        [Admin]
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -46,6 +50,7 @@ namespace WorkplaceBooking.Controllers
             return Ok(user);
         }
 
+        [Admin]
         [HttpGet("GetByEmail/{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
@@ -53,13 +58,11 @@ namespace WorkplaceBooking.Controllers
             return Ok(user);
         }
 
-        // TODO: admin attrib?
         [AllowAnonymous]
         [HttpPost("Create")]
         public async Task<IActionResult> Create(UserCreateRequestDC request)
         {
             await _userService.Create(request);
-            // TODO: or ret contract?
             return Ok(new { message = UserMessages.UserCreated});
         }
 
@@ -67,25 +70,17 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Update(int id, UserUpdateRequestDC request)
         {
             await _userService.Update(id, request);
-            // TODO: or ret contract?
             return Ok(new { message = UserMessages.UserUpdated });
         }
 
+        [Admin]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _userService.Delete(id);
-            // TODO: or ret contract?
             return Ok(new { message = UserMessages.UserDeleted });
         }
 
         #endregion
-
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Hi()
-        {
-            return Ok(new { message = "hi" });
-        }
     }
 }

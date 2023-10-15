@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using WorkplaceBooking.Authorization;
 
 namespace WorkplaceBooking.Controllers
 {
+    // TODO: complete controller RoomManagementController
     [ApiController]
+    [Authorize]
     [Route("api/v1/RoomManagement")]
     public class RoomManagementController : Controller
     {
@@ -12,13 +14,6 @@ namespace WorkplaceBooking.Controllers
         public RoomManagementController(ILogger<UserController> logger)
         {
             _logger = logger;
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Hi()
-        {
-            return Ok(new { message = "hi" });
         }
     }
 }

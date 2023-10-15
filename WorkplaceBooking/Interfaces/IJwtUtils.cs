@@ -1,6 +1,6 @@
 ﻿using WorkplaceBooking.Contracts.Entities;
 
-namespace WorkplaceBooking.Authorization
+namespace WorkplaceBooking.Interfaces
 {
     public interface IJwtUtils
     {

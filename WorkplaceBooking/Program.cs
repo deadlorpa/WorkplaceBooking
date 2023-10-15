@@ -2,7 +2,6 @@ using FluentMigrator.Runner;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Dal;
 using WorkplaceBooking.Dal.Repositories;
@@ -10,6 +9,7 @@ using WorkplaceBooking.Interfaces;
 using WorkplaceBooking.Middleware;
 using WorkplaceBooking.Migrations;
 using WorkplaceBooking.Services;
+using WorkplaceBooking.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +35,6 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IUserService, UserService>();
 }
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>

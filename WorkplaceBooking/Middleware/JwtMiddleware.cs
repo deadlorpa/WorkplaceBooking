@@ -1,5 +1,4 @@
-﻿using WorkplaceBooking.Authorization;
-using WorkplaceBooking.Interfaces;
+﻿using WorkplaceBooking.Interfaces;
 
 namespace WorkplaceBooking.Middleware
 {

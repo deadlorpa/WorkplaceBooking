@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
-using WorkplaceBooking.Services;
 
 namespace WorkplaceBooking.Controllers
 {
-    // TODO: complete controller
+    // TODO: complete controller BookingController
     [ApiController]
+    [Authorize]
     [Route("api/v1/Booking")]
     public class BookingController : Controller
     {
@@ -21,6 +21,7 @@ namespace WorkplaceBooking.Controllers
             _logger = logger;
         }
 
+        [Admin]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -53,7 +54,6 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Create(BookingRecordCreateDC request)
         {
             await _bookingService.Create(request);
-            // TODO: or ret contract?
             return Ok(new { message = BookingRecordMessages.RecordCreated });
         }
 
@@ -61,7 +61,6 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Update(int id, BookingRecordUpdateDC request)
         {
             await _bookingService.Update(id, request);
-            // TODO: or ret contract?
             return Ok(new { message = BookingRecordMessages.RecordUpdated });
         }
 
@@ -69,15 +68,7 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _bookingService.Delete(id);
-            // TODO: or ret contract?
             return Ok(new { message = BookingRecordMessages.RecordDeleted });
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Hi()
-        {
-            return Ok(new { message = "hi" });
         }
     }
 }

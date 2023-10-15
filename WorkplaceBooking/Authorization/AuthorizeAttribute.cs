@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using WorkplaceBooking.Contracts.Entities;
 
@@ -15,11 +14,25 @@ namespace WorkplaceBooking.Authorization
             if (allowAnonymous)
                 return;
 
-            // authorization
-            var user = ((Task<User>)(context.HttpContext.Items["User"])).Result;
-            if (user == null)
+            // TODO: refactoring? make it cleaner?
+            try
             {
-                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                // authorization
+                var userContext = context.HttpContext.Items["User"];
+                if (userContext == null)
+                    throw new Exception("Unauthorized");
+                var user = ((Task<User>)(userContext)).Result;
+                if (user == null)
+                    throw new Exception("Unauthorized");
+
+                // декоратор [Admin] 
+                var adminRequired = context.ActionDescriptor.EndpointMetadata.OfType<AdminAttribute>().Any();
+                if (adminRequired && user.Role != Role.Admin)
+                    throw new Exception("Permission Denied");
+            }
+            catch (Exception ex)
+            {
+                context.Result = new JsonResult(new { message = ex.Message }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
         }
     }

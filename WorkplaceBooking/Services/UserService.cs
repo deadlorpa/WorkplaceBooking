@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Exceptions;
@@ -69,7 +68,7 @@ namespace WorkplaceBooking.Services
             bool emailChanged = !string.IsNullOrEmpty(contract.Email) && user.Email != contract.Email;
             if (emailChanged && await _userRepository.GetByEmail(contract.Email) != null)
                 throw new AppException(UserMessages.UserEmailExist);
-            _mapper.Map<User>(contract);
+            _mapper.Map(contract, user);
             await _userRepository.Update(user);
         }
 

@@ -4,8 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WorkplaceBooking.Contracts.Entities;
+using WorkplaceBooking.Interfaces;
 
-namespace WorkplaceBooking.Authorization
+namespace WorkplaceBooking.Utils
 {
     public class JwtUtils : IJwtUtils
     {
