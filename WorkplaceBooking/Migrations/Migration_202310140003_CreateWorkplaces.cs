@@ -14,7 +14,7 @@ namespace WorkplaceBooking.Migrations
         {
             Create.Table("Workplaces")
             .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-            .WithColumn("RoomId").AsInt32().NotNullable().ForeignKey("Rooms", "Id")
+            .WithColumn("RoomId").AsInt32().NotNullable().ForeignKey("Rooms", "Id").OnDeleteOrUpdate(System.Data.Rule.Cascade)
             .WithColumn("Name").AsString(50).NotNullable()
             .WithColumn("Description").AsString(250).NotNullable();
         }

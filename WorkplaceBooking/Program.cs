@@ -31,8 +31,17 @@ var builder = WebApplication.CreateBuilder(args);
     });
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     builder.Services.AddScoped<IJwtUtils, JwtUtils>();
-    builder.Services.AddScoped<IUserRepository, UserRepository>();
-    builder.Services.AddScoped<IUserService, UserService>();
+    {
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+        builder.Services.AddScoped<IWorkplaceRepository, WorkplaceRepository>();
+        builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+    }
+    {
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IBookingService, BookingService>();
+        builder.Services.AddScoped<IRoomManagementService, RoomManagementService>();
+    }
 }
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

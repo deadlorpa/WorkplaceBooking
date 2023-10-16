@@ -20,7 +20,7 @@ namespace WorkplaceBooking.Services
 
         public async Task Create(BookingRecordCreateDC contract)
         {
-            // TODO: add conditions
+            //  TODO: add datetime range conditions
             var record = _mapper.Map<BookingRecord>(contract);
             await _bookingRepository.Create(record);
         }
@@ -61,7 +61,7 @@ namespace WorkplaceBooking.Services
 
         public async Task Update(int id,BookingRecordUpdateDC contract)
         {
-            // TODO: add conditions
+            // TODO: add datetime range conditions
             var record = _mapper.Map<BookingRecord>(contract);
             await _bookingRepository.Create(record);
         }

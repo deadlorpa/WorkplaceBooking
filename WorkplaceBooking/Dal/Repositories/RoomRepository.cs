@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Data.SqlClient.DataClassification;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
 
@@ -11,7 +12,7 @@ namespace WorkplaceBooking.Dal.Repositories
         {
             _dataContext = dataContext;
         }
-        public async Task Create(Room room)
+        public async Task<Room> Create(Room room)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -21,9 +22,11 @@ namespace WorkplaceBooking.Dal.Repositories
                 )
                 VALUES (
                    @Name
-                )
+                );
+                SELECT last_insert_rowid()
             ";
-            await connection.ExecuteAsync(sql, room);
+            room.Id = await connection.QueryFirstOrDefaultAsync<int>(sql, room);
+            return room;
         }
 
         public async Task Delete(int id)
