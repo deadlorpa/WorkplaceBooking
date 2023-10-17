@@ -4,15 +4,15 @@ using WorkplaceBooking.Interfaces;
 
 namespace WorkplaceBooking.Dal.Repositories
 {
-    public class WorkspaceRepository : IWorkspaceRepository
+    public class WorkplaceRepository : IWorkplaceRepository
     {
         private DatabaseContext _dataContext;
-        public WorkspaceRepository(DatabaseContext dataContext)
+        public WorkplaceRepository(DatabaseContext dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task Create(Workplace workplace)
+        public async Task<Workplace> Create(Workplace workplace)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -26,9 +26,11 @@ namespace WorkplaceBooking.Dal.Repositories
                    @RoomId,
                    @Name,
                    @Description
-                )
+                );
+                
             ";
-            await connection.ExecuteAsync(sql, workplace);
+            workplace.Id = await connection.QueryFirstOrDefaultAsync<int>(sql, workplace);
+            return workplace;
         }
 
         public async Task Delete(int id)
@@ -61,6 +63,17 @@ namespace WorkplaceBooking.Dal.Repositories
                 WHERE Id = @id
             ";
             return await connection.QueryFirstOrDefaultAsync<Workplace>(sql, new { id });
+        }
+
+        public async Task<IEnumerable<Workplace>> GetByRoomId(int roomId)
+        {
+            using var connection = _dataContext.Connection;
+            var sql =
+            @"
+                SELECT * FROM Workplaces
+                WHERE RoomId = @roomId
+            ";
+            return await connection.QueryAsync<Workplace>(sql, new { roomId });
         }
 
         public async Task Update(Workplace workplace)

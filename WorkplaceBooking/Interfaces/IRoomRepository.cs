@@ -8,7 +8,7 @@ namespace WorkplaceBooking.Interfaces
         Task<IEnumerable<Room>> GetAll();
         Task<IEnumerable<Room>> GetByName(string name);
         Task<Room> GetById(int id);
-        Task Create(Room room);
+        Task<Room> Create(Room room);
         Task Delete(int id);
         Task Update(Room room);
     }

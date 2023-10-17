@@ -14,8 +14,8 @@ namespace WorkplaceBooking.Migrations
         {
             Create.Table("BookingRecords")
             .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-            .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("Users", "Id")
-            .WithColumn("WorkplaceId").AsInt32().NotNullable().ForeignKey("Workplaces", "Id")
+            .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("Users", "Id").OnDeleteOrUpdate(System.Data.Rule.Cascade)
+            .WithColumn("WorkplaceId").AsInt32().NotNullable().ForeignKey("Workplaces", "Id").OnDeleteOrUpdate(System.Data.Rule.Cascade)
             .WithColumn("IsCanceled").AsBoolean().WithDefaultValue(false).NotNullable()
             .WithColumn("StartBookingDateTime").AsDateTime().NotNullable()
             .WithColumn("EndBookingDateTime").AsDateTime().NotNullable();
