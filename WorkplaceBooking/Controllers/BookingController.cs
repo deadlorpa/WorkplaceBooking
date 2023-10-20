@@ -29,14 +29,14 @@ namespace WorkplaceBooking.Controllers
             return Ok(records);
         }
 
-        [HttpGet("GetByUserId/{id}")]
+        [HttpGet("GetByUserId/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
             var records = await _bookingService.GetByUserId(userId);
             return Ok(records);
         }
 
-        [HttpGet("GetByWorkplaceId/{id}")]
+        [HttpGet("GetByWorkplaceId/{workplaceId}")]
         public async Task<IActionResult> GetByWorkplaceId(int workplaceId)
         {
             var records = await _bookingService.GetByWorkplaceId(workplaceId);

@@ -2,14 +2,15 @@
 
 namespace WorkplaceBooking.Interfaces
 {
-    public interface IBookingRepository
+    public interface IBookingRepository : IRepository <BookingRecord>
     {
         Task<IEnumerable<BookingRecord>> GetAll();
+        Task<BookingRecord> GetById(int id);
+        Task<int> Create(BookingRecord record);
+        Task<int> Delete(int id);
+        Task<int> Update(BookingRecord record);
+
         Task<IEnumerable<BookingRecord>> GetByUserId(int userId);
         Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId);
-        Task<BookingRecord> GetById(int id);
-        Task Create(BookingRecord record);
-        Task Delete(int id);
-        Task Update(BookingRecord record);
     }
 }

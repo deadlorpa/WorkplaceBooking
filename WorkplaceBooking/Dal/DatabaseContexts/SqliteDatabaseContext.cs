@@ -1,13 +1,14 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Data;
+using WorkplaceBooking.Interfaces;
 
-namespace WorkplaceBooking.Dal
+namespace WorkplaceBooking.Dal.DatabaseContexts
 {
-    public class DatabaseContext
+    public class SqliteDatabaseContext : IDatabaseContext
     {
         private readonly IConfiguration _configuration;
 
-        public DatabaseContext(IConfiguration configuration)
+        public SqliteDatabaseContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }

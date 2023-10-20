@@ -8,20 +8,20 @@ namespace WorkplaceBooking.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _userRepository;
+        private IUnitOfWork _unitOfWork;
         private readonly IJwtUtils _jwtUtils;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IJwtUtils jwtUtils)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJwtUtils jwtUtils)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jwtUtils = jwtUtils;
         }
 
         public async Task<UserAuthResponceDC> Auth(UserAuthRequestDC contract)
         {
-            var user = await _userRepository.GetByEmail(contract.Email);
+            var user = await _unitOfWork.UserRepository.GetByEmail(contract.Email);
             if (user == null)
                 throw new KeyNotFoundException(UserMessages.UserNotFound);
             if(user.Password != contract.Password)
@@ -32,12 +32,12 @@ namespace WorkplaceBooking.Services
 
         public async Task<IEnumerable<User>> GetAll()
         {
-            return await _userRepository.GetAll();
+            return await _unitOfWork.UserRepository.GetAll();
         }
 
         public async Task<User> GetById(int id)
         {
-            var user = await _userRepository.GetById(id);
+            var user = await _unitOfWork.UserRepository.GetById(id);
             if (user == null)
                 throw new KeyNotFoundException(UserMessages.UserNotFound);
             return user;
@@ -45,7 +45,7 @@ namespace WorkplaceBooking.Services
 
         public async Task<User> GetByEmail(string email)
         {
-            var user = await _userRepository.GetByEmail(email);
+            var user = await _unitOfWork.UserRepository.GetByEmail(email);
             if (user == null)
                 throw new KeyNotFoundException(UserMessages.UserNotFound);
             return user;
@@ -53,28 +53,28 @@ namespace WorkplaceBooking.Services
 
         public async Task Create(UserCreateRequestDC contract)
         {
-            if (await _userRepository.GetByEmail(contract.Email) != null)
+            if (await _unitOfWork.UserRepository.GetByEmail(contract.Email) != null)
                 throw new AppException(UserMessages.UserEmailExist);
             var user = _mapper.Map<User>(contract);
-            await _userRepository.Create(user);
+            await _unitOfWork.UserRepository.Create(user);
         }
 
         public async Task Update(int id, UserUpdateRequestDC contract)
         {
-            var user = await _userRepository.GetById(id);
+            var user = await _unitOfWork.UserRepository.GetById(id);
             if (user == null)
                 throw new KeyNotFoundException(UserMessages.UserNotFound);
             // TODO: refactoring?
             bool emailChanged = !string.IsNullOrEmpty(contract.Email) && user.Email != contract.Email;
-            if (emailChanged && await _userRepository.GetByEmail(contract.Email) != null)
+            if (emailChanged && await _unitOfWork.UserRepository.GetByEmail(contract.Email) != null)
                 throw new AppException(UserMessages.UserEmailExist);
             _mapper.Map(contract, user);
-            await _userRepository.Update(user);
+            await _unitOfWork.UserRepository.Update(user);
         }
 
         public async Task Delete(int id)
         {
-            await _userRepository.Delete(id);
+            await _unitOfWork.UserRepository.Delete(id);
         }
     }
 }

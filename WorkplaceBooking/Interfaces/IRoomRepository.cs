@@ -2,14 +2,14 @@
 
 namespace WorkplaceBooking.Interfaces
 {
-    // TODO: more methods?
-    public interface IRoomRepository
+    public interface IRoomRepository : IRepository<Room>
     {
         Task<IEnumerable<Room>> GetAll();
-        Task<IEnumerable<Room>> GetByName(string name);
         Task<Room> GetById(int id);
-        Task<Room> Create(Room room);
-        Task Delete(int id);
-        Task Update(Room room);
+        Task<int> Create(Room room);
+        Task<int> Delete(int id);
+        Task<int> Update(Room room);
+
+        Task<IEnumerable<Room>> GetByName(string name);
     }
 }

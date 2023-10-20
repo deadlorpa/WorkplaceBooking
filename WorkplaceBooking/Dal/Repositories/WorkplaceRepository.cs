@@ -6,13 +6,13 @@ namespace WorkplaceBooking.Dal.Repositories
 {
     public class WorkplaceRepository : IWorkplaceRepository
     {
-        private DatabaseContext _dataContext;
-        public WorkplaceRepository(DatabaseContext dataContext)
+        private IDatabaseContext _dataContext;
+        public WorkplaceRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task<Workplace> Create(Workplace workplace)
+        public async Task<int> Create(Workplace workplace)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -29,11 +29,10 @@ namespace WorkplaceBooking.Dal.Repositories
                 );
                 
             ";
-            workplace.Id = await connection.QueryFirstOrDefaultAsync<int>(sql, workplace);
-            return workplace;
+            return await connection.ExecuteAsync(sql, workplace);
         }
 
-        public async Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -41,7 +40,7 @@ namespace WorkplaceBooking.Dal.Repositories
                 DELETE FROM Workplaces 
                 WHERE Id = @id
             ";
-            await connection.ExecuteAsync(sql, new { id });
+            return await connection.ExecuteAsync(sql, new { id });
         }
 
         public async Task<IEnumerable<Workplace>> GetAll()
@@ -76,7 +75,7 @@ namespace WorkplaceBooking.Dal.Repositories
             return await connection.QueryAsync<Workplace>(sql, new { roomId });
         }
 
-        public async Task Update(Workplace workplace)
+        public async Task<int> Update(Workplace workplace)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -87,7 +86,7 @@ namespace WorkplaceBooking.Dal.Repositories
                     Description = @Description
                 WHERE Id = @Id
             ";
-            await connection.ExecuteAsync(sql, workplace);
+            return await connection.ExecuteAsync(sql, workplace);
         }
     }
 }
