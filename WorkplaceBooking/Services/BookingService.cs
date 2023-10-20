@@ -63,7 +63,7 @@ namespace WorkplaceBooking.Services
         {
             // TODO: add datetime range conditions
             var record = _mapper.Map<BookingRecord>(contract);
-            await _bookingRepository.Create(record);
+            await _bookingRepository.Update(record);
         }
     }
 }
