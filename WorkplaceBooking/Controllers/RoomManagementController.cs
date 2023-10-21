@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
 
 namespace WorkplaceBooking.Controllers
 {
-    // TODO: remove anon after tests
     [ApiController]
     [Authorize]
     [Route("api/v1/RoomManagement")]
@@ -14,11 +13,15 @@ namespace WorkplaceBooking.Controllers
     {
         private IRoomManagementService _roomManagementService;
         private readonly ILogger<UserController> _logger;
+        private readonly IStringLocalizer<RoomManagementController> _localizer;
 
-        public RoomManagementController(IRoomManagementService roomManagementService,ILogger<UserController> logger)
+        public RoomManagementController(IRoomManagementService roomManagementService,
+            ILogger<UserController> logger,
+            IStringLocalizer<RoomManagementController> localizer)
         {
             _roomManagementService = roomManagementService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [HttpPost("CreateRoom")]
@@ -60,28 +63,28 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> DeleteRoom(int roomId)
         {
             await _roomManagementService.DeleteRoom(roomId);
-            return Ok(new {RoomMessages.RoomDeleted});
+            return Ok(new { message = _localizer["RoomDeleted"].Value });
         }
 
         [HttpDelete("DeleteWorkplace/{workplaceId}")]
         public async Task<IActionResult> DeleteWorkplace(int workplaceId)
         {
             await _roomManagementService.DeleteWorkplace(workplaceId);
-            return Ok(new { WorkplaceMessages.WorplaceDeleted });
+            return Ok(new { message = _localizer["WorplaceDeleted"].Value });
         }
 
         [HttpPut("UpdateRoom/{roomId}")]
         public async Task<IActionResult> UpdateWorkplace(int roomId, RoomUpdateRequestDC request)
         {
             await _roomManagementService.UpdateRoom(roomId, request);
-            return Ok(new { RoomMessages.RoomUpdated });
+            return Ok(new { message = _localizer["RoomUpdated"].Value });
         }
 
         [HttpPut("UpdateWorkplace/{workplaceId}")]
         public async Task<IActionResult> UpdateWorkplace(int workplaceId, WorkplaceUpdateRequestDC request)
         {
             await _roomManagementService.UpdateWorkplace(workplaceId, request);
-            return Ok(new { WorkplaceMessages.WorplaceUpdated });
+            return Ok(new { message = _localizer["WorplaceUpdated"].Value });
         }
     }
 }

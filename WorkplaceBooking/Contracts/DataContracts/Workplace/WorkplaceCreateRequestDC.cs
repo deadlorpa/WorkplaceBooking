@@ -7,13 +7,13 @@ namespace WorkplaceBooking.Contracts.DataContracts
         /// <summary>
         /// Идентификатор связанной комнаты
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "{0} is a required field")]
         public int RoomId { get; set; }
 
         /// <summary>
         /// Наименование рабочего места
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "{0} is a required field")]
         public string Name { get; set; }
 
         /// <summary>

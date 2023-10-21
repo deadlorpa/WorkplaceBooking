@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Localization;
 using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.DataContracts.Extensions;
 using WorkplaceBooking.Contracts.Entities;
@@ -10,11 +11,15 @@ namespace WorkplaceBooking.Services
     {
         private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<RoomManagementService> _localizer;
 
-        public RoomManagementService(IUnitOfWork unitOfWork, IMapper mapper)
+        public RoomManagementService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IStringLocalizer<RoomManagementService> localizer)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _localizer = localizer;
         }
 
         public async Task<Room> CreateRoom(RoomCreateRequestDC request)
@@ -61,7 +66,7 @@ namespace WorkplaceBooking.Services
         {
             var room = await _unitOfWork.RoomRepository.GetById(idRoom);
             if(room == null)
-                throw new KeyNotFoundException(RoomMessages.RoomNotFound);
+                throw new KeyNotFoundException(_localizer["RoomNotFound"].Value);
             _mapper.Map(request, room);
             await _unitOfWork.RoomRepository.Update(room);
             return room;
@@ -71,7 +76,7 @@ namespace WorkplaceBooking.Services
         {
             var workplace = await _unitOfWork.WorkplaceRepository.GetById(idWorkplace);
             if (workplace == null)
-                throw new KeyNotFoundException(WorkplaceMessages.WorplaceNotFound);
+                throw new KeyNotFoundException(_localizer["WorplaceNotFound"].Value);
             _mapper.Map(request, workplace);
             await _unitOfWork.WorkplaceRepository.Update(workplace);
             return workplace;
