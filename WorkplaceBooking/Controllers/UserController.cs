@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
 
 namespace WorkplaceBooking.Controllers
@@ -13,11 +13,15 @@ namespace WorkplaceBooking.Controllers
     {
         private IUserService _userService;
         private readonly ILogger<UserController> _logger;
+        private readonly IStringLocalizer<UserController> _localizer;
 
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UserController(IUserService userService,
+            ILogger<UserController> logger,
+            IStringLocalizer<UserController> localizer)
         {
             _userService = userService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         #region Auth
@@ -63,14 +67,14 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Create(UserCreateRequestDC request)
         {
             await _userService.Create(request);
-            return Ok(new { message = UserMessages.UserCreated});
+            return Ok(new { message = _localizer["Created"].Value });
         }
 
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, UserUpdateRequestDC request)
         {
             await _userService.Update(id, request);
-            return Ok(new { message = UserMessages.UserUpdated });
+            return Ok(new { message = _localizer["Updated"].Value });
         }
 
         [Admin]
@@ -78,7 +82,7 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _userService.Delete(id);
-            return Ok(new { message = UserMessages.UserDeleted });
+            return Ok(new { message = _localizer["Deleted"].Value });
         }
 
         #endregion

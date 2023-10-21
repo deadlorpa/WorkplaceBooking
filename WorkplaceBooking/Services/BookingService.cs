@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Localization;
 using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
@@ -9,11 +10,14 @@ namespace WorkplaceBooking.Services
     {
         private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public BookingService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IStringLocalizer<BookingService> _localizer;
+        public BookingService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IStringLocalizer<BookingService> localizer)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _localizer = localizer;
         }
 
         public async Task Create(BookingRecordCreateDC contract)
@@ -37,7 +41,7 @@ namespace WorkplaceBooking.Services
         {
             var record = await _unitOfWork.BookingRepository.GetById(id);
             if (record == null)
-                throw new KeyNotFoundException(BookingRecordMessages.RecordNotFound);
+                throw new KeyNotFoundException(_localizer["NotFound"].Value);
             return record;
         }
 
@@ -45,7 +49,7 @@ namespace WorkplaceBooking.Services
         {
             var record = await _unitOfWork.BookingRepository.GetByWorkplaceId(workplaceId);
             if (record == null)
-                throw new KeyNotFoundException(BookingRecordMessages.RecordNotFound);
+                throw new KeyNotFoundException(_localizer["NotFound"].Value);
             return record;
         }
 
@@ -53,7 +57,7 @@ namespace WorkplaceBooking.Services
         {
             var record = await _unitOfWork.BookingRepository.GetByUserId(idUser);
             if (record == null)
-                throw new KeyNotFoundException(BookingRecordMessages.RecordNotFound);
+                throw new KeyNotFoundException(_localizer["NotFound"].Value);
             return record;
         }
 

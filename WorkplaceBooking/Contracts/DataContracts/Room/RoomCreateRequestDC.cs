@@ -7,7 +7,7 @@ namespace WorkplaceBooking.Contracts.DataContracts
         /// <summary>
         /// Имя комнаты
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "{0} is a required field")]
         public string Name { get; set; }
     }
 }

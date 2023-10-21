@@ -18,20 +18,20 @@ namespace WorkplaceBooking.Contracts.DataContracts
         /// <summary>
         /// Почтовый адрес пользователя
         /// </summary>
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "{0} is not email type")]
         public string? Email { get; set; }
 
         /// <summary>
         /// Роль пользователя
         /// </summary>
-        [EnumDataType(typeof(Role))]
+        [EnumDataType(typeof(Role), ErrorMessage = "{0} invalid")]
         public Role? Role { get; set; }
 
         private string _password;
         /// <summary>
         /// Пароль пользователя
         /// </summary>
-        [MinLength(8)]
+        [MinLength(8, ErrorMessage = "{0} must contains more than 8 characters")]
         public string? Password 
         {
             get => _password; 
@@ -42,7 +42,7 @@ namespace WorkplaceBooking.Contracts.DataContracts
         /// <summary>
         /// Подтверждение пароля пользователя
         /// </summary>
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage = "{0} is not equal to {1}")]
         public string? ConfirmPassword
         {
             get => _confirmPassword;

@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using WorkplaceBooking.Authorization;
 using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
 
 namespace WorkplaceBooking.Controllers
 {
-    // TODO: complete controller BookingController
     [ApiController]
     [Authorize]
     [Route("api/v1/Booking")]
@@ -14,11 +13,15 @@ namespace WorkplaceBooking.Controllers
     {
         private IBookingService _bookingService;
         private readonly ILogger<UserController> _logger;
+        private readonly IStringLocalizer<BookingController> _localizer;
 
-        public BookingController(IBookingService bookingService, ILogger<UserController> logger)
+        public BookingController(IBookingService bookingService,
+            ILogger<UserController> logger,
+            IStringLocalizer<BookingController> localizer)
         {
             _bookingService = bookingService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         [Admin]
@@ -54,21 +57,21 @@ namespace WorkplaceBooking.Controllers
         public async Task<IActionResult> Create(BookingRecordCreateDC request)
         {
             await _bookingService.Create(request);
-            return Ok(new { message = BookingRecordMessages.RecordCreated });
+            return Ok(new { message = _localizer["Created"].Value });
         }
 
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, BookingRecordUpdateDC request)
         {
             await _bookingService.Update(id, request);
-            return Ok(new { message = BookingRecordMessages.RecordUpdated });
+            return Ok(new { message = _localizer["Updated"].Value });
         }
 
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _bookingService.Delete(id);
-            return Ok(new { message = BookingRecordMessages.RecordDeleted });
+            return Ok(new { message = _localizer["Deleted"].Value });
         }
     }
 }
