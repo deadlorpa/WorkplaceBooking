@@ -6,13 +6,13 @@ namespace WorkplaceBooking.Dal.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private DatabaseContext _dataContext;
-        public UserRepository(DatabaseContext dataContext)
+        private IDatabaseContext _dataContext;
+        public UserRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task Create(User user)
+        public async Task<int> Create(User user)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -32,10 +32,10 @@ namespace WorkplaceBooking.Dal.Repositories
                    @Password
                 )
             ";
-            await connection.ExecuteAsync(sql, user);
+            return await connection.ExecuteAsync(sql, user);
         }
 
-        public async Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -43,7 +43,7 @@ namespace WorkplaceBooking.Dal.Repositories
                 DELETE FROM Users 
                 WHERE Id = @id
             ";
-            await connection.ExecuteAsync(sql, new { id });
+            return await connection.ExecuteAsync(sql, new { id });
         }
 
         public async Task<IEnumerable<User>> GetAll()
@@ -78,7 +78,7 @@ namespace WorkplaceBooking.Dal.Repositories
             return await connection.QueryFirstOrDefaultAsync<User>(sql, new { id });
         }
 
-        public async Task Update(User user)
+        public async Task<int> Update(User user)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -91,7 +91,7 @@ namespace WorkplaceBooking.Dal.Repositories
                     Password  = @Password
                 WHERE Id = @Id
             ";
-            await connection.ExecuteAsync(sql, user);
+            return await connection.ExecuteAsync(sql, user);
         }
     }
 }

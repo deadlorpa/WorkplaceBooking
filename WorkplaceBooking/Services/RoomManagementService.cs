@@ -8,74 +8,72 @@ namespace WorkplaceBooking.Services
 {
     public class RoomManagementService : IRoomManagementService
     {
-        private IRoomRepository _roomRepository;
-        private IWorkplaceRepository _workspaceRepository;
+        private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public RoomManagementService(IRoomRepository roomRepository, IWorkplaceRepository workspaceRepository, IMapper mapper)
+        public RoomManagementService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _roomRepository = roomRepository;
-            _workspaceRepository = workspaceRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<Room> CreateRoom(RoomCreateRequestDC request)
         {
             var room = _mapper.Map<Room>(request);
-            room = await _roomRepository.Create(room);
+            room.Id = await _unitOfWork.RoomRepository.Create(room);
             return room;
         }
 
         public async Task<Workplace> CreateWorkplace(WorkplaceCreateRequestDC request)
         {
             var workplace = _mapper.Map<Workplace>(request);
-            workplace = await _workspaceRepository.Create(workplace);
+            workplace.Id = await _unitOfWork.WorkplaceRepository.Create(workplace);
             return workplace;
         }
 
         public async Task DeleteRoom(int roomId)
         {
-            await _roomRepository.Delete(roomId);
+            await _unitOfWork.RoomRepository.Delete(roomId);
         }
 
         public async Task DeleteWorkplace(int idWorkplace)
         {
-            await _workspaceRepository.Delete(idWorkplace);
+            await _unitOfWork.WorkplaceRepository.Delete(idWorkplace);
         }
 
         public async Task<IEnumerable<Room>> GetAllRooms()
         {
-            return await _roomRepository.GetAll();
+            return await _unitOfWork.RoomRepository.GetAll();
         }
 
         public async Task<IEnumerable<RoomFullResponceDC>> GetFull()
         {
-            var rooms = await _roomRepository.GetAll();
-            return rooms.Select(x => RoomExtensions.ToRoomFullResponce(x, _workspaceRepository.GetByRoomId(x.Id).Result));
+            var rooms = await _unitOfWork.RoomRepository.GetAll();
+            return rooms.Select(x => RoomExtensions.ToRoomFullResponce(x, _unitOfWork.WorkplaceRepository.GetByRoomId(x.Id).Result));
         }
 
         public async Task<IEnumerable<Workplace>> GetWorkplacesByRoomId(int roomId)
         {
-            return await _workspaceRepository.GetByRoomId(roomId);
+            return await _unitOfWork.WorkplaceRepository.GetByRoomId(roomId);
         }
 
         public async Task<Room> UpdateRoom(int idRoom, RoomUpdateRequestDC request)
         {
-            var room = await _roomRepository.GetById(idRoom);
+            var room = await _unitOfWork.RoomRepository.GetById(idRoom);
             if(room == null)
                 throw new KeyNotFoundException(RoomMessages.RoomNotFound);
             _mapper.Map(request, room);
-            await _roomRepository.Update(room);
+            await _unitOfWork.RoomRepository.Update(room);
             return room;
         }
 
         public async Task<Workplace> UpdateWorkplace(int idWorkplace, WorkplaceUpdateRequestDC request)
         {
-            var workplace = await _workspaceRepository.GetById(idWorkplace);
+            var workplace = await _unitOfWork.WorkplaceRepository.GetById(idWorkplace);
             if (workplace == null)
                 throw new KeyNotFoundException(WorkplaceMessages.WorplaceNotFound);
             _mapper.Map(request, workplace);
-            await _workspaceRepository.Update(workplace);
+            await _unitOfWork.WorkplaceRepository.Update(workplace);
             return workplace;
         }
     }

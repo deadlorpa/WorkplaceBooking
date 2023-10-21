@@ -6,13 +6,13 @@ namespace WorkplaceBooking.Dal.Repositories
 {
     public class BookingRepository : IBookingRepository
     {
-        private DatabaseContext _dataContext;
-        public BookingRepository(DatabaseContext dataContext)
+        private IDatabaseContext _dataContext;
+        public BookingRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task Create(BookingRecord record)
+        public async Task<int> Create(BookingRecord record)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -30,10 +30,10 @@ namespace WorkplaceBooking.Dal.Repositories
                    @EndBookingDateTime
                 )
             ";
-            await connection.ExecuteAsync(sql, record);
+            return await connection.ExecuteAsync(sql, record);
         }
 
-        public async Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -42,7 +42,7 @@ namespace WorkplaceBooking.Dal.Repositories
                     IsCanceled = 1
                 WHERE Id = @id
             ";
-            await connection.ExecuteAsync(sql, new { id });
+            return await connection.ExecuteAsync(sql, new { id });
         }
 
         public async Task<IEnumerable<BookingRecord>> GetAll()
@@ -88,7 +88,7 @@ namespace WorkplaceBooking.Dal.Repositories
             return await connection.QueryAsync<BookingRecord>(sql, new { userId });
         }
 
-        public async Task Update(BookingRecord record)
+        public async Task<int> Update(BookingRecord record)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -98,7 +98,7 @@ namespace WorkplaceBooking.Dal.Repositories
                     EndBookingDateTime  = @EndBookingDateTime
                 WHERE Id = @Id
             ";
-            await connection.ExecuteAsync(sql, record);
+            return await connection.ExecuteAsync(sql, record);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Dal;
-using WorkplaceBooking.Dal.Repositories;
+using WorkplaceBooking.Dal.DatabaseContexts;
 using WorkplaceBooking.Interfaces;
 using WorkplaceBooking.Middleware;
 using WorkplaceBooking.Migrations;
@@ -14,9 +14,10 @@ using WorkplaceBooking.Utils;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// TODO: analize services lifetime and change
 {
     builder.Services.Configure<JwtAppSettings>(builder.Configuration.GetSection("JwtAppSettings"));
-    builder.Services.AddSingleton<DatabaseContext>();
+    builder.Services.AddScoped<IDatabaseContext, SqliteDatabaseContext>();
     builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
     .AddFluentMigratorCore()
         .ConfigureRunner(c => c.AddSQLite()
@@ -31,12 +32,9 @@ var builder = WebApplication.CreateBuilder(args);
     });
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     builder.Services.AddScoped<IJwtUtils, JwtUtils>();
-    {
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-        builder.Services.AddScoped<IWorkplaceRepository, WorkplaceRepository>();
-        builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-    }
+
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
     {
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IBookingService, BookingService>();

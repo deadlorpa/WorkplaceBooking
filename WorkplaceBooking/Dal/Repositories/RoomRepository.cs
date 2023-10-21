@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Microsoft.Data.SqlClient.DataClassification;
 using WorkplaceBooking.Contracts.Entities;
 using WorkplaceBooking.Interfaces;
 
@@ -7,12 +6,12 @@ namespace WorkplaceBooking.Dal.Repositories
 {
     public class RoomRepository : IRoomRepository
     {
-        private DatabaseContext _dataContext;
-        public RoomRepository(DatabaseContext dataContext)
+        private IDatabaseContext _dataContext;
+        public RoomRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
         }
-        public async Task<Room> Create(Room room)
+        public async Task<int> Create(Room room)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -25,11 +24,10 @@ namespace WorkplaceBooking.Dal.Repositories
                 );
                 SELECT last_insert_rowid()
             ";
-            room.Id = await connection.QueryFirstOrDefaultAsync<int>(sql, room);
-            return room;
+            return await connection.QueryFirstOrDefaultAsync<int>(sql, room);
         }
 
-        public async Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -37,7 +35,7 @@ namespace WorkplaceBooking.Dal.Repositories
                 DELETE FROM Rooms 
                 WHERE Id = @id
             ";
-            await connection.ExecuteAsync(sql, new { id });
+            return await connection.ExecuteAsync(sql, new { id });
         }
 
         public async Task<IEnumerable<Room>> GetAll()
@@ -72,7 +70,7 @@ namespace WorkplaceBooking.Dal.Repositories
             return await connection.QueryAsync<Room>(sql, new { name });
         }
 
-        public async Task Update(Room room)
+        public async Task<int> Update(Room room)
         {
             using var connection = _dataContext.Connection;
             var sql =
@@ -81,7 +79,7 @@ namespace WorkplaceBooking.Dal.Repositories
                     Name = @Name
                 WHERE Id = @Id
             ";
-            await connection.ExecuteAsync(sql, room);
+            return await connection.ExecuteAsync(sql, room);
         }
     }
 }
