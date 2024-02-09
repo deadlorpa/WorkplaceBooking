@@ -12,5 +12,6 @@ namespace WorkplaceBooking.Interfaces
 
         Task<IEnumerable<BookingRecord>> GetByUserId(int userId);
         Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId);
+        Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId, DateTime date);
     }
 }

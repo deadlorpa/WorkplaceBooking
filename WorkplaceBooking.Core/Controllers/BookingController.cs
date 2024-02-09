@@ -46,6 +46,13 @@ namespace WorkplaceBooking.Controllers
             return Ok(records);
         }
 
+        [HttpGet("GetByWorkplaceId/{workplaceId}/{date}")]
+        public async Task<IActionResult> GetByWorkplaceIdAndDate(int workplaceId, DateTime date)
+        {
+            var records = await _bookingService.GetByWorkplaceId(workplaceId, date);
+            return Ok(records);
+        }
+
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
