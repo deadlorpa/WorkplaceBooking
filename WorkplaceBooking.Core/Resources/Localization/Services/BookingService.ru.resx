@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DatetimeBusy" xml:space="preserve">
+  <data name="DateIntervalConflict" xml:space="preserve">
     <value>Указанный интервал времени занят</value>
   </data>
+  <data name="IncorrectDateInterval" xml:space="preserve">
+    <value>Неверно задан интервал времени</value>
+  </data>
+  <data name="IncorrectDateIntervalDate" xml:space="preserve">
+    <value>Начало и конец интервала - разные дни</value>
+  </data>
   <data name="NotFound" xml:space="preserve">
-    <value>Запись не найдена</value>
+    <value>Не найдено записей</value>
   </data>
 </root>

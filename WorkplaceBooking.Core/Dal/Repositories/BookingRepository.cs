@@ -77,6 +77,22 @@ namespace WorkplaceBooking.Dal.Repositories
             return await connection.QueryAsync<BookingRecord>(sql, new { workplaceId });
         }
 
+        public async Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId, DateTime date)
+        {
+            using var connection = _dataContext.Connection;
+            var sql =
+            @"
+                SELECT * FROM BookingRecords
+                WHERE WorkplaceId = @workplaceId
+                AND 
+                (
+                    DATE(StartBookingDateTime) = DATE(@date)
+                    OR DATE(EndBookingDateTime) = DATE(@date)
+                )
+            ";
+            return await connection.QueryAsync<BookingRecord>(sql, new { workplaceId , date});
+        }
+
         public async Task<IEnumerable<BookingRecord>> GetByUserId(int userId)
         {
             using var connection = _dataContext.Connection;

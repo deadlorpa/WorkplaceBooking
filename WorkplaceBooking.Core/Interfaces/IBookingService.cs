@@ -24,6 +24,12 @@ namespace WorkplaceBooking.Interfaces
         Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId);
 
         /// <summary>
+        /// Получение всех записей о бронировании по id рабочего места в определенную дату
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId, DateTime date);
+
+        /// <summary>
         /// Получение записи о бронировании по id
         /// </summary>
         /// <param name="id"></param>

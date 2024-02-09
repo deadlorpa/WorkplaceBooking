@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Localization;
 using WorkplaceBooking.Contracts.DataContracts;
 using WorkplaceBooking.Contracts.Entities;
+using WorkplaceBooking.Core.Contracts.Extensions;
 using WorkplaceBooking.Interfaces;
 
 namespace WorkplaceBooking.Services
@@ -22,8 +23,8 @@ namespace WorkplaceBooking.Services
 
         public async Task Create(BookingRecordCreateDC contract)
         {
-            //  TODO: add datetime range conditions
             var record = _mapper.Map<BookingRecord>(contract);
+            await DateIntervalValidation(record);
             await _unitOfWork.BookingRepository.Create(record);
         }
 
@@ -47,10 +48,10 @@ namespace WorkplaceBooking.Services
 
         public async Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId)
         {
-            var record = await _unitOfWork.BookingRepository.GetByWorkplaceId(workplaceId);
-            if (record == null)
+            var records = await _unitOfWork.BookingRepository.GetByWorkplaceId(workplaceId);
+            if (records == null)
                 throw new KeyNotFoundException(_localizer["NotFound"].Value);
-            return record;
+            return records;
         }
 
         public async Task<IEnumerable<BookingRecord>> GetByUserId(int idUser)
@@ -61,11 +62,47 @@ namespace WorkplaceBooking.Services
             return record;
         }
 
+        public async Task<IEnumerable<BookingRecord>> GetByWorkplaceId(int workplaceId, DateTime date)
+        {
+            var records = await _unitOfWork.BookingRepository.GetByWorkplaceId(workplaceId, date);
+            if (records == null)
+                throw new KeyNotFoundException(_localizer["NotFound"].Value);
+            return records;
+        }
+
         public async Task Update(int id,BookingRecordUpdateDC contract)
         {
-            // TODO: add datetime range conditions
             var record = _mapper.Map<BookingRecord>(contract);
+            await DateIntervalValidation(record);
             await _unitOfWork.BookingRepository.Update(record);
         }
+
+        #region private methods
+
+        /// <summary>
+        /// Проверка корректности и конфликтов интервала дат контракта
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        private async Task DateIntervalValidation(BookingRecord record)
+        {
+            if (record.StartBookingDateTime >= record.EndBookingDateTime)
+            {
+                throw new ArgumentException(_localizer["IncorrectDateInterval"].Value);
+            }
+            if (record.StartBookingDateTime.Date != record.EndBookingDateTime.Date)
+            {
+                throw new ArgumentException(_localizer["IncorrectDateIntervalDate"].Value);
+            }
+            var targetDateRecords = await _unitOfWork.BookingRepository.GetByWorkplaceId(record.WorkplaceId, record.StartBookingDateTime);
+            var conflictedRecords = targetDateRecords.Where(rec => !rec.IsCanceled && rec.HasDateConflict(record));
+            if (conflictedRecords?.Count() > 0)
+            {
+                throw new ArgumentException(_localizer["DateIntervalConflict"].Value);
+            }
+        }
+
+        #endregion
     }
 }
