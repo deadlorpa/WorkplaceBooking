@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace WorkplaceBooking.Exceptions
+namespace WorkplaceBooking.Core.Exceptions
 {
     public class AppException : Exception
     {

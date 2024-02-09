@@ -1,4 +1,4 @@
-﻿namespace WorkplaceBooking.Utils
+﻿namespace WorkplaceBooking.Core.Utils
 {
     public static class Utils
     {

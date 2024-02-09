@@ -1,6 +1,6 @@
-﻿using WorkplaceBooking.Interfaces;
+﻿using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Middleware
+namespace WorkplaceBooking.Core.Middleware
 {
     public class JwtMiddleware
     {

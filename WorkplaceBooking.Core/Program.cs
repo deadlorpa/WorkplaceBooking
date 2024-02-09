@@ -6,14 +6,14 @@ using Microsoft.OpenApi.Models;
 using System.Globalization;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using WorkplaceBooking.Contracts.Entities;
-using WorkplaceBooking.Dal;
-using WorkplaceBooking.Dal.DatabaseContexts;
-using WorkplaceBooking.Interfaces;
-using WorkplaceBooking.Middleware;
-using WorkplaceBooking.Migrations;
-using WorkplaceBooking.Services;
-using WorkplaceBooking.Utils;
+using WorkplaceBooking.Core.Contracts.Entities;
+using WorkplaceBooking.Core.Dal;
+using WorkplaceBooking.Core.Dal.DatabaseContexts;
+using WorkplaceBooking.Core.Interfaces;
+using WorkplaceBooking.Core.Middleware;
+using WorkplaceBooking.Core.Migrations;
+using WorkplaceBooking.Core.Services;
+using WorkplaceBooking.Core.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
-﻿using WorkplaceBooking.Contracts.Entities;
+﻿using WorkplaceBooking.Core.Contracts.Entities;
 
-namespace WorkplaceBooking.Contracts.DataContracts.Extensions
+namespace WorkplaceBooking.Core.Contracts.DataContracts.Extensions
 {
     public static class RoomExtensions
     {

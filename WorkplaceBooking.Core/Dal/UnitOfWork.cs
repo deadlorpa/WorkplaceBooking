@@ -1,7 +1,7 @@
-﻿using WorkplaceBooking.Dal.Repositories;
-using WorkplaceBooking.Interfaces;
+﻿using WorkplaceBooking.Core.Dal.Repositories;
+using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Dal
+namespace WorkplaceBooking.Core.Dal
 {
     public class UnitOfWork : IUnitOfWork
     {

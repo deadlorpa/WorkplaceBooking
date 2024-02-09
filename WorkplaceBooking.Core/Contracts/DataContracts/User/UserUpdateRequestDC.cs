@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WorkplaceBooking.Contracts.Entities;
+using WorkplaceBooking.Core.Contracts.Entities;
 
-namespace WorkplaceBooking.Contracts.DataContracts
+namespace WorkplaceBooking.Core.Contracts.DataContracts
 {
     public class UserUpdateRequestDC
     {

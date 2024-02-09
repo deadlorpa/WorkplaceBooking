@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WorkplaceBooking.Contracts.DataContracts
+namespace WorkplaceBooking.Core.Contracts.DataContracts
 {
     public class WorkplaceCreateRequestDC
     {

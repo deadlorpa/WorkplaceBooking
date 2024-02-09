@@ -1,4 +1,4 @@
-﻿namespace WorkplaceBooking.Contracts.DataContracts
+﻿namespace WorkplaceBooking.Core.Contracts.DataContracts
 {
     public class RoomUpdateRequestDC
     {

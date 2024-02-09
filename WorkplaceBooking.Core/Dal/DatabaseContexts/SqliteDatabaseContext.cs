@@ -1,8 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Data;
-using WorkplaceBooking.Interfaces;
+using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Dal.DatabaseContexts
+namespace WorkplaceBooking.Core.Dal.DatabaseContexts
 {
     public class SqliteDatabaseContext : IDatabaseContext
     {

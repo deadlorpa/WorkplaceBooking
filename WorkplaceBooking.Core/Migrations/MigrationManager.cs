@@ -1,7 +1,7 @@
 ﻿using FluentMigrator.Runner;
-using WorkplaceBooking.Exceptions;
+using WorkplaceBooking.Core.Exceptions;
 
-namespace WorkplaceBooking.Migrations
+namespace WorkplaceBooking.Core.Migrations
 {
     public static class MigrationManager
     {

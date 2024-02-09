@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace WorkplaceBooking.Interfaces
+namespace WorkplaceBooking.Core.Interfaces
 {
     public interface IDatabaseContext
     {

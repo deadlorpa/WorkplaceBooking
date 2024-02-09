@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "WorkplaceBooking": {
+    "WorkplaceBooking.Core": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
