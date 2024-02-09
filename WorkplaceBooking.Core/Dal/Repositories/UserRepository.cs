@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using WorkplaceBooking.Contracts.Entities;
-using WorkplaceBooking.Interfaces;
+using WorkplaceBooking.Core.Contracts.Entities;
+using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Dal.Repositories
+namespace WorkplaceBooking.Core.Dal.Repositories
 {
     public class UserRepository : IUserRepository
     {

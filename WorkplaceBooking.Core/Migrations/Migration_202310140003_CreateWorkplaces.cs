@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace WorkplaceBooking.Migrations
+namespace WorkplaceBooking.Core.Migrations
 {
     [Migration(202310140003)]
     public class Migration_202310140003_CreateWorkplaces : Migration

@@ -1,7 +1,7 @@
-﻿using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
+﻿using WorkplaceBooking.Core.Contracts.DataContracts;
+using WorkplaceBooking.Core.Contracts.Entities;
 
-namespace WorkplaceBooking.Contracts.DataContracts
+namespace WorkplaceBooking.Core.Contracts.DataContracts
 {
     public static class UserExtensions
     {

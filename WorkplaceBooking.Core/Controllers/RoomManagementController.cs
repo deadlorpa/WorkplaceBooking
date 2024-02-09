@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using WorkplaceBooking.Authorization;
-using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Interfaces;
+using WorkplaceBooking.Core.Authorization;
+using WorkplaceBooking.Core.Contracts.DataContracts;
+using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Controllers
+namespace WorkplaceBooking.Core.Controllers
 {
     [ApiController]
     [Authorize]

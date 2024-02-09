@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using WorkplaceBooking.Contracts.Entities;
+using WorkplaceBooking.Core.Contracts.Entities;
 
-namespace WorkplaceBooking.Authorization
+namespace WorkplaceBooking.Core.Authorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
+using WorkplaceBooking.Core.Contracts.DataContracts;
+using WorkplaceBooking.Core.Contracts.Entities;
 
-namespace WorkplaceBooking.Utils
+namespace WorkplaceBooking.Core.Utils
 {
     public class AutoMapperProfile : Profile
     {

@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
-using WorkplaceBooking.Exceptions;
+using WorkplaceBooking.Core.Exceptions;
 
-namespace WorkplaceBooking.Middleware
+namespace WorkplaceBooking.Core.Middleware
 {
     public class ErrorHandlerMiddleware
     {

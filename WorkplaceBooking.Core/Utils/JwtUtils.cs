@@ -3,10 +3,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WorkplaceBooking.Contracts.Entities;
-using WorkplaceBooking.Interfaces;
+using WorkplaceBooking.Core.Contracts.Entities;
+using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Utils
+namespace WorkplaceBooking.Core.Utils
 {
     public class JwtUtils : IJwtUtils
     {

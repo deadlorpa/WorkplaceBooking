@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
-using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
-using WorkplaceBooking.Exceptions;
-using WorkplaceBooking.Interfaces;
+using WorkplaceBooking.Core.Contracts.DataContracts;
+using WorkplaceBooking.Core.Contracts.Entities;
+using WorkplaceBooking.Core.Exceptions;
+using WorkplaceBooking.Core.Interfaces;
 
-namespace WorkplaceBooking.Services
+namespace WorkplaceBooking.Core.Services
 {
     public class UserService : IUserService
     {

@@ -1,7 +1,7 @@
-﻿using WorkplaceBooking.Contracts.DataContracts;
-using WorkplaceBooking.Contracts.Entities;
+﻿using WorkplaceBooking.Core.Contracts.DataContracts;
+using WorkplaceBooking.Core.Contracts.Entities;
 
-namespace WorkplaceBooking.Interfaces
+namespace WorkplaceBooking.Core.Interfaces
 {
     public interface IBookingService
     {

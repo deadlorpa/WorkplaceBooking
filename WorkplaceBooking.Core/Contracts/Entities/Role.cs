@@ -1,4 +1,4 @@
-﻿namespace WorkplaceBooking.Contracts.Entities
+﻿namespace WorkplaceBooking.Core.Contracts.Entities
 {
     /// <summary>
     /// Роли пользователя

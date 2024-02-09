@@ -1,4 +1,4 @@
-﻿using WorkplaceBooking.Contracts.Entities;
+﻿using WorkplaceBooking.Core.Contracts.Entities;
 
 namespace WorkplaceBooking.Core.Contracts.Extensions
 {
