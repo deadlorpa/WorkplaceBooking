@@ -7,6 +7,18 @@ namespace WorkplaceBooking.Core.Dal.Repositories
     public class UserRepository : IUserRepository
     {
         private IDatabaseContext _dataContext;
+        private const string _selectQuery =
+            $@"
+                SELECT
+                    {nameof(User.Id)},
+                    {nameof(User.FirstName)},
+                    {nameof(User.LastName)},
+                    {nameof(User.Email)},
+                    {nameof(User.Role)},
+                    {nameof(User.Password)}
+                FROM Users
+            ";
+
         public UserRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
@@ -16,20 +28,20 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 INSERT INTO Users (
-                    FirstName,
-                    LastName,
-                    Email,
-                    Role,
-                    Password
+                    {nameof(User.FirstName)},
+                    {nameof(User.LastName)},
+                    {nameof(User.Email)},
+                    {nameof(User.Role)},
+                    {nameof(User.Password)}
                 )
                 VALUES (
-                   @FirstName,
-                   @LastName,
-                   @Email,
-                   @Role,
-                   @Password
+                    @{nameof(User.FirstName)},
+                    @{nameof(User.LastName)},
+                    @{nameof(User.Email)},
+                    @{nameof(User.Role)},
+                    @{nameof(User.Password)}
                 )
             ";
             return await connection.ExecuteAsync(sql, user);
@@ -39,9 +51,9 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 DELETE FROM Users 
-                WHERE Id = @id
+                WHERE {nameof(User.Id)} = @id
             ";
             return await connection.ExecuteAsync(sql, new { id });
         }
@@ -49,20 +61,16 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         public async Task<IEnumerable<User>> GetAll()
         {
             using var connection = _dataContext.Connection;
-            var sql =
-            @"
-                SELECT * FROM Users
-            ";
-            return await connection.QueryAsync<User>(sql);
+            return await connection.QueryAsync<User>(_selectQuery);
         }
 
         public async Task<User> GetByEmail(string email)
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM Users
-                WHERE Email = @email
+            $@"
+                {_selectQuery}
+                WHERE {nameof(User.Email)} = @email
             ";
             return await connection.QueryFirstOrDefaultAsync<User>(sql, new { email });
         }
@@ -71,9 +79,9 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM Users
-                WHERE Id = @id
+            $@"
+                {_selectQuery}
+                WHERE {nameof(User.Id)} = @id
             ";
             return await connection.QueryFirstOrDefaultAsync<User>(sql, new { id });
         }
@@ -82,14 +90,14 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 UPDATE Users SET
-                    FirstName = @FirstName,
-                    LastName  = @LastName,
-                    Email     = @Email,
-                    Role      = @Role,
-                    Password  = @Password
-                WHERE Id = @Id
+                    {nameof(User.FirstName)} = @{nameof(User.FirstName)},
+                    {nameof(User.LastName)}  = @{nameof(User.LastName)},
+                    {nameof(User.Email)}     = @{nameof(User.Email)},
+                    {nameof(User.Role)}      = @{nameof(User.Role)},
+                    {nameof(User.Password)}  = @{nameof(User.Password)}
+                WHERE {nameof(User.Id)} = @{nameof(User.Id)}
             ";
             return await connection.ExecuteAsync(sql, user);
         }
