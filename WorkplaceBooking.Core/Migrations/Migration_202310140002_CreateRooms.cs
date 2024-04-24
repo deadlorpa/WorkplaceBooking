@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using WorkplaceBooking.Core.Contracts.Entities;
 
 namespace WorkplaceBooking.Core.Migrations
 {
@@ -13,8 +14,8 @@ namespace WorkplaceBooking.Core.Migrations
         public override void Up()
         {
             Create.Table("Rooms")
-            .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-            .WithColumn("Name").AsString(50).NotNullable();
+            .WithColumn($"{nameof(Room.Id)}").AsInt32().NotNullable().PrimaryKey().Identity()
+            .WithColumn($"{nameof(Room.Name)}").AsString(50).NotNullable();
         }
     }
 }

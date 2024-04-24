@@ -7,6 +7,16 @@ namespace WorkplaceBooking.Core.Dal.Repositories
     public class WorkplaceRepository : IWorkplaceRepository
     {
         private IDatabaseContext _dataContext;
+        private const string _selectQuery = 
+            $@"
+                SELECT 
+                    {nameof(Workplace.Id)},
+                    {nameof(Workplace.RoomId)},
+                    {nameof(Workplace.Name)},
+                    {nameof(Workplace.Description)}
+                FROM Workplaces
+            ";
+
         public WorkplaceRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
@@ -16,16 +26,16 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 INSERT INTO Workplaces (
-                    RoomId,
-                    Name,
-                    Description
+                    {nameof(Workplace.RoomId)},
+                    {nameof(Workplace.Name)},
+                    {nameof(Workplace.Description)}
                 )
                 VALUES (
-                   @RoomId,
-                   @Name,
-                   @Description
+                    @{nameof(Workplace.RoomId)},
+                    @{nameof(Workplace.Name)},
+                    @{nameof(Workplace.Description)}
                 );
                 
             ";
@@ -36,9 +46,9 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 DELETE FROM Workplaces 
-                WHERE Id = @id
+                WHERE {nameof(Workplace.Id)} = @id
             ";
             return await connection.ExecuteAsync(sql, new { id });
         }
@@ -46,20 +56,16 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         public async Task<IEnumerable<Workplace>> GetAll()
         {
             using var connection = _dataContext.Connection;
-            var sql =
-            @"
-                SELECT * FROM Workplaces
-            ";
-            return await connection.QueryAsync<Workplace>(sql);
+            return await connection.QueryAsync<Workplace>(_selectQuery);
         }
 
         public async Task<Workplace> GetById(int id)
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM Workplaces
-                WHERE Id = @id
+            $@"
+                {_selectQuery}
+                WHERE {nameof(Workplace.Id)} = @id
             ";
             return await connection.QueryFirstOrDefaultAsync<Workplace>(sql, new { id });
         }
@@ -68,9 +74,9 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM Workplaces
-                WHERE RoomId = @roomId
+            $@"
+                {_selectQuery}
+                WHERE {nameof(Workplace.RoomId)} = @roomId
             ";
             return await connection.QueryAsync<Workplace>(sql, new { roomId });
         }
@@ -79,12 +85,12 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 UPDATE Workplaces SET
-                    RoomId = @RoomId,
-                    Name = @Name,
-                    Description = @Description
-                WHERE Id = @Id
+                    {nameof(Workplace.RoomId)} = @{nameof(Workplace.RoomId)},
+                    {nameof(Workplace.Name)} = @{nameof(Workplace.Name)},
+                    {nameof(Workplace.Description)} = @{nameof(Workplace.Description)}
+                WHERE {nameof(Workplace.Id)} = @{nameof(Workplace.Id)}
             ";
             return await connection.ExecuteAsync(sql, workplace);
         }

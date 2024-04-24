@@ -7,6 +7,18 @@ namespace WorkplaceBooking.Core.Dal.Repositories
     public class BookingRepository : IBookingRepository
     {
         private IDatabaseContext _dataContext;
+        private const string _selectQuery =
+        $@"
+            SELECT
+                {nameof(BookingRecord.Id)},
+                {nameof(BookingRecord.UserId)},
+                {nameof(BookingRecord.WorkplaceId)},
+                {nameof(BookingRecord.IsCanceled)},
+                {nameof(BookingRecord.StartBookingDateTime)},
+                {nameof(BookingRecord.EndBookingDateTime)}
+            FROM BookingRecords
+        ";
+
         public BookingRepository(IDatabaseContext dataContext)
         {
             _dataContext = dataContext;
@@ -16,18 +28,18 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 INSERT INTO BookingRecords (
-                    UserId,
-                    WorkplaceId,
-                    StartBookingDateTime,
-                    EndBookingDateTime
+                    {nameof(BookingRecord.UserId)},
+                    {nameof(BookingRecord.WorkplaceId)},
+                    {nameof(BookingRecord.StartBookingDateTime)},
+                    {nameof(BookingRecord.EndBookingDateTime)}
                 )
                 VALUES (
-                   @UserId,
-                   @WorkplaceId,
-                   @StartBookingDateTime,
-                   @EndBookingDateTime
+                    @{nameof(BookingRecord.UserId)},
+                    @{nameof(BookingRecord.WorkplaceId)},
+                    @{nameof(BookingRecord.StartBookingDateTime)},
+                    @{nameof(BookingRecord.EndBookingDateTime)}
                 )
             ";
             return await connection.ExecuteAsync(sql, record);
@@ -37,10 +49,10 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 UPDATE BookingRecords SET
-                    IsCanceled = 1
-                WHERE Id = @id
+                {nameof(BookingRecord.IsCanceled)} = 1
+                WHERE {nameof(BookingRecord.Id)} = @id
             ";
             return await connection.ExecuteAsync(sql, new { id });
         }
@@ -48,21 +60,17 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         public async Task<IEnumerable<BookingRecord>> GetAll()
         {
             using var connection = _dataContext.Connection;
-            var sql =
-            @"
-                SELECT * FROM BookingRecords
-            ";
-            return await connection.QueryAsync<BookingRecord>(sql);
+            return await connection.QueryAsync<BookingRecord>(_selectQuery);
         }
 
         public async Task<BookingRecord> GetById(int id)
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM BookingRecords
-                WHERE Id = @id
-            ";
+                @$"
+                    {_selectQuery}
+                    WHERE {nameof(BookingRecord.Id)} = @id
+                ";
             return await connection.QueryFirstOrDefaultAsync<BookingRecord>(sql, new { id });
         }
 
@@ -70,10 +78,10 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM BookingRecords
-                WHERE WorkplaceId = @workplaceId
-            ";
+                $@"
+                    {_selectQuery}
+                    WHERE {nameof(BookingRecord.WorkplaceId)} = @workplaceId
+                ";
             return await connection.QueryAsync<BookingRecord>(sql, new { workplaceId });
         }
 
@@ -81,13 +89,13 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM BookingRecords
-                WHERE WorkplaceId = @workplaceId
+            $@"
+                {_selectQuery}
+                WHERE {nameof(BookingRecord.WorkplaceId)} = @workplaceId
                 AND 
                 (
-                    DATE(StartBookingDateTime) = DATE(@date)
-                    OR DATE(EndBookingDateTime) = DATE(@date)
+                    DATE({nameof(BookingRecord.StartBookingDateTime)}) = DATE(@date)
+                    OR DATE({nameof(BookingRecord.EndBookingDateTime)}) = DATE(@date)
                 )
             ";
             return await connection.QueryAsync<BookingRecord>(sql, new { workplaceId , date});
@@ -97,9 +105,9 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
-                SELECT * FROM BookingRecords
-                WHERE UserId = @userId
+            $@"
+                {_selectQuery}
+                WHERE {nameof(BookingRecord.UserId)} = @userId
             ";
             return await connection.QueryAsync<BookingRecord>(sql, new { userId });
         }
@@ -108,11 +116,11 @@ namespace WorkplaceBooking.Core.Dal.Repositories
         {
             using var connection = _dataContext.Connection;
             var sql =
-            @"
+            $@"
                 UPDATE BookingRecords SET
-                    StartBookingDateTime = @StartBookingDateTime,
-                    EndBookingDateTime  = @EndBookingDateTime
-                WHERE Id = @Id
+                    {nameof(BookingRecord.StartBookingDateTime)} = @{nameof(BookingRecord.StartBookingDateTime)},
+                    {nameof(BookingRecord.EndBookingDateTime)}  = @{nameof(BookingRecord.EndBookingDateTime)}
+                WHERE {nameof(BookingRecord.Id)} = @{nameof(BookingRecord.Id)}
             ";
             return await connection.ExecuteAsync(sql, record);
         }

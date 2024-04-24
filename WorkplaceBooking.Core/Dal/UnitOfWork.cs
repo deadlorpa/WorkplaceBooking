@@ -20,7 +20,7 @@ namespace WorkplaceBooking.Core.Dal
         {
             get 
             {
-                return _userRepository ?? (new UserRepository(_dataContext));
+                return _userRepository ?? (_userRepository = new UserRepository(_dataContext));
             }
         }
 
@@ -28,7 +28,7 @@ namespace WorkplaceBooking.Core.Dal
         {
             get 
             {
-                return _bookingRepository ?? (new BookingRepository(_dataContext)); 
+                return _bookingRepository ?? (_bookingRepository = new BookingRepository(_dataContext)); 
             }
         }
 
@@ -36,7 +36,7 @@ namespace WorkplaceBooking.Core.Dal
         {
             get
             {
-                return _roomRepository ?? (new RoomRepository(_dataContext));
+                return _roomRepository ?? (_roomRepository = new RoomRepository(_dataContext));
             }
         }
 
@@ -44,7 +44,7 @@ namespace WorkplaceBooking.Core.Dal
         {
             get
             {
-                return _workplaceRepository ?? (new WorkplaceRepository(_dataContext));
+                return _workplaceRepository ?? (_workplaceRepository = new WorkplaceRepository(_dataContext));
             }
         }
     }

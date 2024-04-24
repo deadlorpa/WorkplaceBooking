@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using WorkplaceBooking.Core.Contracts.Entities;
 
 namespace WorkplaceBooking.Core.Migrations
 {
@@ -13,12 +14,12 @@ namespace WorkplaceBooking.Core.Migrations
         public override void Up()
         {
             Create.Table("BookingRecords")
-            .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-            .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("Users", "Id").OnDeleteOrUpdate(System.Data.Rule.Cascade)
-            .WithColumn("WorkplaceId").AsInt32().NotNullable().ForeignKey("Workplaces", "Id").OnDeleteOrUpdate(System.Data.Rule.Cascade)
-            .WithColumn("IsCanceled").AsBoolean().WithDefaultValue(false).NotNullable()
-            .WithColumn("StartBookingDateTime").AsDateTime().NotNullable()
-            .WithColumn("EndBookingDateTime").AsDateTime().NotNullable();
+            .WithColumn($"{nameof(BookingRecord.Id)}").AsInt32().NotNullable().PrimaryKey().Identity()
+            .WithColumn($"{nameof(BookingRecord.UserId)}").AsInt32().NotNullable().ForeignKey("Users", $"{nameof(User.Id)}").OnDeleteOrUpdate(System.Data.Rule.Cascade)
+            .WithColumn($"{nameof(BookingRecord.WorkplaceId)}").AsInt32().NotNullable().ForeignKey("Workplaces", $"{nameof(Workplace.Id)}").OnDeleteOrUpdate(System.Data.Rule.Cascade)
+            .WithColumn($"{nameof(BookingRecord.IsCanceled)}").AsBoolean().WithDefaultValue(false).NotNullable()
+            .WithColumn($"{nameof(BookingRecord.StartBookingDateTime)}").AsDateTime().NotNullable()
+            .WithColumn($"{nameof(BookingRecord.EndBookingDateTime)}").AsDateTime().NotNullable();
         }
     }
 }
